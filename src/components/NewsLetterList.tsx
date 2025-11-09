@@ -1,53 +1,54 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Card from "./Card";
-import type { Newsletter } from "@/types";
-import { fetchNewsletters } from "@/api/newsletter";
+import type { Newsletter, User } from "@/types";
 import { groupBySite } from "@/lib/utils";
 import { SITE_LABELS, SITE_ORDER } from "@/constants/sites";
 
-const NewsLetterList = () => {
-    const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
-    const [loading, setLoading] = useState(false);
+interface NewsLetterListProps {
+    newsletters: Newsletter[];
+    user: User;
+}
 
-    const grouped = groupBySite(newsletters);
+const NewsLetterList: React.FC<NewsLetterListProps> = ({ newsletters, user }) => {
+    const [subscribedIds, setSubscribedIds] = useState<string[]>([]);
+    const grouped = useMemo(() => groupBySite(newsletters), [newsletters]);
+
+    const handleToggle = (id: string) => {
+        setSubscribedIds((prev) =>
+            prev.includes(id) ? prev.filter((nid) => nid !== id) : [...prev, id],
+        );
+    };
 
 
-    useEffect(() => {
-        const loadNewsletters = async () => {
-            setLoading(true);
-
-            try {
-                const data = await fetchNewsletters();
-                setNewsletters(data);
-            } catch (error) {
-                console.error("Error fetching newsletters:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadNewsletters();
-    }, []);
+    if (newsletters.length === 0) {
+        return <p className="mt-5 text-center text-sm text-gray-500">Aucune newsletter n'est disponible pour le moment.</p>;
+    }
 
     return (
-        <div className="mt-5">
+        <div className="mt-5 space-y-10">
             {SITE_ORDER.map((site) => {
                 const items = grouped[site];
                 if (!items || items.length === 0) return null;
 
                 return (
-                    <section key={site} className="mb-10">
-                        <h2>{SITE_LABELS[site] ?? site}</h2>
-                        <div className="w-[70px] h-[4px] bg-red"></div>
-                        {!loading && newsletters.length > 0 && (
-                            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                                {newsletters.map((newsletter) => (
-                                    <Card key={newsletter.id} newsletter={newsletter} />
-                                ))}
-                            </div>
-                        )}
+                    <section key={site} className="space-y-4">
+                        <div>
+                            <h2>{SITE_LABELS[site] ?? site}</h2>
+                            <div className="mt-2 h-1 w-16 bg-red" />
+                        </div>
+                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                            {items.map((newsletter) => (
+                                <Card
+                                    key={newsletter.id}
+                                    newsletter={newsletter}
+                                    user={user}
+                                    isSubscribed={subscribedIds.includes(newsletter.id)}
+                                    onToggle={() => handleToggle(newsletter.id)}
+                                />
+                            ))}
+                        </div>
                     </section>
                 );
             })}
