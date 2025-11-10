@@ -1,7 +1,23 @@
-## User profiles
-There are three mock users in `src/mocks/user.ts`: `single`, `multi`, and `none`.  
-By default the page uses `profileKey = "none"` (see `src/app/page.tsx`).  
-To test another profile, simply change that value to `"single"` or `"multi"` and restart `npm run dev`.  
+## Usage
+
+```bash
+npm install
+npm run dev
+```
+
+### Switching user profiles
+
+Three mock users are defined in `src/mocks/user.ts`: `single`, `multi`, and `none`.  
+Open `src/app/page.tsx` and update the `profileKey` constant to pick the scenario you want to demo.  
+The CTA automatically switches between `S'inscrire` and `S'abonner` based on the selected profile.
+
+### Tests
+
+```bash
+npm test
+```
+
+This runs unit tests for the CTA button logic and the `groupBySite` helper.
 
 # Getting started
 

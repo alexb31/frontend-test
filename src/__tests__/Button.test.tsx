@@ -15,6 +15,14 @@ describe("Button component", () => {
     expect(screen.getByRole("button")).toHaveTextContent("Se désinscrire");
   });
 
+  it("shows 'S'abonner' when access is missing", () => {
+    render(<Button hasAccess={false} isSubscribed={false} onToggle={jest.fn()} />);
+
+    const button = screen.getByRole("button");
+    expect(button).toHaveTextContent("S'abonner");
+    expect(button).toBeDisabled();
+  });
+
   it("calls onToggle when clicked and access granted", () => {
     const onToggle = jest.fn();
     render(<Button hasAccess isSubscribed={false} onToggle={onToggle} />);
