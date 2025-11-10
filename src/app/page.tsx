@@ -18,18 +18,27 @@ const page = async () => {
   const profileKey: keyof typeof USERS = "none"; // Simulation d'un utilisateur connecté
   const currentUser = USERS[profileKey];
 
-  let newsletters: Newsletter[] = [];
+  let newsletters: Newsletter[] | null = null;
+
+  let hasError = false;
 
   try {
     newsletters = await fetchNewsletters();
   } catch (error) {
+    hasError = true;
     console.error("Failed to fetch newsletters:", error);
   }
 
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto mt-8 px-4">
       <Header />
-      <NewsLetterList newsletters={newsletters} user={currentUser} />
+      {hasError || !newsletters ? (
+        <div className="mt-10 rounded-lg border border-red-200 bg-red-50 p-6 text-center text-red-700">
+          <p>Impossible de récupérer les newsletters pour le moment. Merci de réessayer plus tard.</p>
+        </div>
+      ) : (
+        <NewsLetterList newsletters={newsletters} user={currentUser} />
+      )}
     </div>
   );
 };

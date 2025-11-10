@@ -26,8 +26,10 @@ const Card = ({ newsletter, user, isSubscribed, onToggle }: CardProps) => {
             <Link href="/" className='w-full'>
                 <Image src={image} alt={title} width={150} height={150} className='w-full' />
             </Link>
-            <p>{description}</p>
-            <Button hasAccess={hasRequiredRight} isSubscribed={isSubscribed} onToggle={onToggle}/>
+            <div className='mt-4 flex h-full flex-col items-center'>
+                <p className='text-base p-4 wrap-break-word flex-1'>{description}</p>
+                <Button hasAccess={hasRequiredRight} isSubscribed={isSubscribed} onToggle={onToggle} />
+            </div>
         </div>
     )
 }

@@ -34,11 +34,11 @@ const NewsLetterList: React.FC<NewsLetterListProps> = ({ newsletters, user }) =>
 
                 return (
                     <section key={site} className="space-y-4">
-                        <div>
+                        <div className="mb-10">
                             <h2>{SITE_LABELS[site] ?? site}</h2>
                             <div className="mt-2 h-1 w-16 bg-red" />
                         </div>
-                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 mb-12">
                             {items.map((newsletter) => (
                                 <Card
                                     key={newsletter.id}

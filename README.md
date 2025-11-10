@@ -1,3 +1,8 @@
+## User profiles
+There are three mock users in `src/mocks/user.ts`: `single`, `multi`, and `none`.  
+By default the page uses `profileKey = "none"` (see `src/app/page.tsx`).  
+To test another profile, simply change that value to `"single"` or `"multi"` and restart `npm run dev`.  
+
 # Getting started
 
 Hello there, you are a new recruit in our frontend team at Les Echos, and your first task is to implement our newsletter page.
