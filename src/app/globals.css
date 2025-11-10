@@ -6,6 +6,7 @@
   --color-primary: var(--primary);
   --color-red: var(--red);
   --color-yellow: var(--yellow);
+  --color-green: var(--green);
 }
 
 :root {
@@ -14,6 +15,7 @@
   --primary: #212121;
   --red: #B00005;
   --yellow: #FAEC70;
+  --green: #00A86B;
 
 
 }
